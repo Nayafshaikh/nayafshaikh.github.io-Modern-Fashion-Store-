@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MensWear - Modern Fashion Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    /* Navigation Styles */
+    nav {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      color: #ecf0f1;
+      padding: 12px 20px;
+      margin: 0 5px;
+      border-radius: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: rgba(52, 152, 219, 0.3);
+      color: #3498db;
+      transform: translateY(-2px);
+    }
+
+    .nav-item i {
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    .search-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      padding: 8px 15px;
+    }
+
+    .search-input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #ecf0f1;
+      padding: 8px 12px;
+      border-radius: 20px;
+      width: 200px;
+      font-size: 14px;
+    }
+
+    .search-input::placeholder {
+      color: rgba(236, 240, 241, 0.7);
+    }
+
+    #search {
+      color: #ecf0f1;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    #search:hover {
+      color: #3498db;
+    }
+
+    .page-header {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin: 40px auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    img {
+      width: 290px;
+      height: 330px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 4rem;
+      color: white;
+    }
+
+    .product-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .product-description {
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .product-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .add-to-cart {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .add-to-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
+      color: white;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .filter-btn {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+      border: 2px solid #667eea;
+      padding: 8px 20px;
+      border-radius: 25px;
+      margin: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #667eea;
+      color: white;
+    }
+
+    footer {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: #ecf0f1;
+      margin-top: 40px;
+      padding: 20px 0;
+    }
+
+    .social-icon {
+      background: rgba(52, 152, 219, 0.2);
+      color: #3498db;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 50%;
+      margin: 2px 10px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .social-icon:hover {
+      background: #3498db;
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(189, 195, 199, 0.2);
+      color: #95a5a6;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center">
+        <a href="A home.html" class="nav-item">
+          <i class="fa-sharp fa-solid fa-house"></i> Home
+        </a>
+        <a href="B menswear.html" class="nav-item active">
+          <i class="fa-sharp fa-solid fa-shirt"></i> MensWear
+        </a>
+        <a href="C wishlist.html" class="nav-item">
+          <i class="fa-solid fa-heart"></i> Wishlist
+        </a>
+        <a href="D feedback.html" class="nav-item">
+          <i class="fa-solid fa-face-smile"></i> Feedback
+        </a>
+      </div>
+      <div class="search-container d-flex align-items-center ms-auto">
+        <input type="text" class="search-input" placeholder="Search products...">
+        <i class="fas fa-search" id="search"></i>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Men's Fashion Collection</h1>
+      <p class="page-subtitle">Discover premium quality clothing for the modern gentleman</p>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <h3 class="filter-title">Filter by Category</h3>
+      <button class="btn filter-btn active">All Items</button>
+      <a href="type.category/1 shirts.html"><button class="btn filter-btn">Shirts</button></a>
+      <a href="type.category/2 jackets.html"><button class="btn filter-btn">jackets</button></a>
+      <a href="type.category/3 shoes.html"><button class="btn filter-btn">shoes</button></a>
+      <a href="type.category/4 jeans.html"><button class="btn filter-btn">jeans</button></a>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-image">
+           <!-- <i class="fa-solid fa-shirt"></i> -->
+           <img src="/fashionstore.img/Cotton Shirt.jpg" alt="">
+        </div>
+        <h3 class="product-title">Premium Cotton Shirt</h3>
+        <p class="product-description">Classic white cotton shirt perfect for office and casual wear</p>
+        <div class="product-price">₹1,999</div>
+        <button class="btn add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <!-- <i class="fa-solid fa-vest"></i> -->
+           <img src="/fashionstore.img/jacket.jpg" alt="">
+        </div>
+        <h3 class="product-title">Designer Leather Jacket</h3>
+        <p class="product-description">Stylish black leather jacket for a bold fashion statement</p>
+        <div class="product-price">₹4,999</div>
+        <button class="btn add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <!-- <i class="fa-solid fa-shoe-prints"></i> -->
+           <img src="fashionstore.img/Casual Sneakers.jpg" alt="">
+        </div>
+        <h3 class="product-title">Casual Sneakers</h3>
+        <p class="product-description">Comfortable white sneakers for everyday casual wear</p>
+        <div class="product-price">₹2,999</div>
+        <button class="btn add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <!-- <i class="fa-solid fa-tshirt"></i> -->
+           <img src="fashionstore.img/Graphic T-Shirt.jpg" alt="">
+        </div>
+        <h3 class="product-title">Graphic T-Shirt</h3>
+        <p class="product-description">Trendy graphic tee with modern design and comfortable fit</p>
+        <div class="product-price">₹799</div>
+        <button class="btn add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <!-- <i class="fa-solid fa-socks"></i> -->
+           <img src="fashionstore.img/Denim Jeans.jpg" alt="">
+        </div>
+        <h3 class="product-title">Denim Jeans</h3>
+        <p class="product-description">Classic blue denim jeans with perfect fit and comfort</p>
+        <div class="product-price">₹2,499</div>
+        <button class="btn add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <!-- <i class="fa-solid fa-hat-cowboy"></i> -->
+           <img src="fashionstore.img/Casual Cap.jpg" alt="">
+        </div>
+        <h3 class="product-title">Casual Cap</h3>
+        <p class="product-description">Stylish baseball cap to complete your casual look</p>
+        <div class="product-price">₹599</div>
+        <button class="btn add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <!-- <i class="fa-solid fa-tie"></i> -->
+           <img src="fashionstore.img/Formal Blazer.jpg" alt="">
+        </div>
+        <h3 class="product-title">Formal Blazer</h3>
+        <p class="product-description">Elegant navy blue blazer for formal occasions</p>
+        <div class="product-price">₹3,999</div>
+        <button class="btn add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <!-- <i class="fa-solid fa-glasses"></i> -->
+           <img src="fashionstore.img/sunglasses.jpg" alt="">
+        </div>
+        <h3 class="product-title">Sunglasses</h3>
+        <p class="product-description">Trendy sunglasses with UV protection and style</p>
+        <div class="product-price">₹1,299</div>
+        <button class="btn add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Modern Fashion Store. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+

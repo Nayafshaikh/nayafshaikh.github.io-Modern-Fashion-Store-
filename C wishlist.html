@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Wish List - Modern Fashion Store</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+     * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-color: #20282f;
+      --secondary-color: #e74c3c;
+      --accent-color: #f39c12;
+      --text-dark: #2c3e50;
+      --text-light: #7f8c8d;
+      --bg-light: #f8f9fa;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+  
+    }
+
+    /* Navigation Styles */
+    nav {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      color: #ecf0f1;
+      padding: 12px 20px;
+      margin: 0 5px;
+      border-radius: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      background: rgba(52, 152, 219, 0.3);
+      color: #3498db;
+      transform: translateY(-2px);
+    }
+
+    .nav-item i {
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    .search-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      padding: 8px 15px;
+    }
+
+    .search-input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #ecf0f1;
+      padding: 8px 12px;
+      border-radius: 20px;
+      width: 200px;
+      font-size: 14px;
+    }
+
+    .search-input::placeholder {
+      color: rgba(236, 240, 241, 0.7);
+    }
+
+    #search {
+      color: #ecf0f1;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    #search:hover {
+      color: #3498db;
+    }
+
+    .main-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 1200px;
+    }
+
+    .header-section {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .header-section::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+      border-radius: 2px;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--secondary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-subtitle {
+      color: var(--text-light);
+      font-size: 1.1rem;
+    }
+
+    .wishlist-controls {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .filter-tabs {
+      border: none;
+      gap: 10px;
+    }
+
+    .filter-tabs .nav-link {
+      border: 2px solid transparent;
+      border-radius: 25px;
+      padding: 12px 25px;
+      font-weight: 600;
+      color: var(--text-light);
+      transition: all 0.3s ease;
+      background: var(--bg-light);
+    }
+
+    .filter-tabs .nav-link.active {
+      background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+      color: white;
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    }
+
+    .wishlist-item {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .wishlist-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .item-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .wishlist-item:hover .item-image img {
+      transform: scale(1.05);
+    }
+
+    .item-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: var(--secondary-color);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      z-index: 2;
+    }
+
+    .item-actions {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      gap: 10px;
+      z-index: 2;
+    }
+
+    .action-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .action-btn:hover {
+      background: var(--secondary-color);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .item-details {
+      padding: 25px;
+    }
+
+    .item-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 8px;
+    }
+
+    .item-brand {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    .item-price {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin-bottom: 15px;
+    }
+
+    .original-price {
+      text-decoration: line-through;
+      color: var(--text-light);
+      font-size: 1rem;
+      margin-left: 10px;
+    }
+
+    .item-description {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .size-options {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .size-btn {
+      width: 35px;
+      height: 35px;
+      border: 2px solid #dee2e6;
+      background: white;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .size-btn:hover,
+    .size-btn.active {
+      border-color: var(--secondary-color);
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .item-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-add-cart {
+      flex: 1;
+      background: linear-gradient(135deg, var(--primary-color), #34495e);
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-add-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(44, 62, 80, 0.3);
+      color: white;
+    }
+
+    .btn-remove {
+      background: rgba(231, 76, 60, 0.1);
+      border: 2px solid var(--secondary-color);
+      color: var(--secondary-color);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-remove:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .wishlist-summary {
+      background: linear-gradient(135deg, var(--primary-color), #34495e);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .summary-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .empty-wishlist {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        margin: 10px;
+        padding: 20px;
+      }
+
+      .page-title {
+        font-size: 2rem;
+      }
+
+      .item-buttons {
+        flex-direction: column;
+      }
+
+      .summary-stats {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+
+    .animate-in {
+      animation: slideInUp 0.6s ease-out;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center">
+        <a href="A home.html" class="nav-item">
+          <i class="fa-sharp fa-solid fa-house"></i> Home
+        </a>
+        <a href="B menswear.html" class="nav-item">
+          <i class="fa-sharp fa-solid fa-shirt"></i> MensWear
+        </a>
+        <a href="C wishlist.html" class="nav-item">
+          <i class="fa-solid fa-heart"></i> Wishlist
+        </a>
+        <a href="D feedback.html" class="nav-item">
+          <i class="fa-solid fa-face-smile"></i> Feedback
+        </a>
+      </div>
+      <div class="search-container d-flex align-items-center ms-auto">
+        <input type="text" class="search-input" placeholder="Search products...">
+        <i class="fas fa-search" id="search"></i>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="main-container">
+      <!-- Header -->
+      <div class="header-section">
+        <h1 class="page-title">
+          <i class="fas fa-heart me-3"></i>My Wish List
+        </h1>
+        <p class="page-subtitle">Your favorite fashion pieces are waiting for you</p>
+      </div>
+
+      <!-- Controls -->
+      <div class="wishlist-controls">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <ul class="nav filter-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#" data-filter="all">All Items (3)</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-filter="clothing">Clothing (2)</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-filter="accessories">Accessories (1)</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wishlist Items -->
+      <div class="row" id="wishlistItems">
+        <!-- Item 1 -->
+        <div class="col-lg-6 mb-4 wishlist-item-container animate-in" data-category="clothing">
+          <div class="wishlist-item">
+            <div class="item-image">
+              <img src="/fashionstore.img/Formal Blazer.jpg"alt="Casual Blazer">
+              <div class="item-actions">
+                <button class="action-btn" title="Share">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+                <button class="action-btn" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <div class="item-details">
+              <h3 class="item-title">Modern Casual Blazer</h3>
+              <p class="item-brand">by Urban Style</p>
+              <div class="item-price">₹4,999</div>
+              <p class="item-description">
+                Versatile blazer perfect for both casual and professional settings. Made with wrinkle-resistant fabric.
+              </p>
+              <div class="size-options">
+                <button class="size-btn">S</button>
+                <button class="size-btn">M</button>
+                <button class="size-btn">L</button>
+                <button class="size-btn">XL</button>
+              </div>
+              <div class="item-buttons">
+                <button class="btn btn-add-cart">
+                  <i class="fas fa-shopping-cart me-2"></i>Order Now
+                </button>
+                <button class="btn btn-remove">
+                  <i class="fas fa-trash me-2"></i>Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="col-lg-6 mb-4 wishlist-item-container animate-in" data-category="accessories">
+          <div class="wishlist-item">
+            <div class="item-image">
+              <img src="/fashionstore.img/sunglasses.jpg"
+                alt="Luxury Watch">
+              <div class="item-badge">Limited</div>
+              <div class="item-actions">
+                <button class="action-btn" title="Share">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+                <button class="action-btn" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <div class="item-details">
+              <h3 class="item-title">Sunglasses</h3>
+              <p class="item-brand">by QUE </p>
+              <div class="item-price">₹1,299</div>
+              <p class="item-description">
+                Premium sports watch with water resistance and smart features. Perfect for active lifestyle enthusiasts.
+              </p>
+              <div class="item-buttons">
+                <button class="btn btn-add-cart">
+                  <i class="fas fa-shopping-cart me-2"></i>Order Now
+                </button>
+                <button class="btn btn-remove">
+                  <i class="fas fa-trash me-2"></i>Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="col-lg-6 mb-4 wishlist-item-container animate-in" data-category="clothing">
+          <div class="wishlist-item">
+            <div class="item-image">
+              <img src="/fashionstore.img/jeans.D.jpeg"
+                alt="Designer Jeans">
+              <div class="item-actions">
+                <button class="action-btn" title="Share">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+                <button class="action-btn" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <div class="item-details">
+              <h3 class="item-title">Premium Denim Jeans</h3>
+              <p class="item-brand">by Denim Masters</p>
+              <div class="item-price">
+                ₹8,999
+                <span class="original-price">₹1,1999</span>
+              </div>
+              <p class="item-description">
+                High-quality denim jeans with perfect fit and comfort. Classic design that never goes out of style.
+              </p>
+              <div class="size-options">
+                <button class="size-btn">28</button>
+                <button class="size-btn">30</button>
+                <button class="size-btn active">32</button>
+                <button class="size-btn">34</button>
+                <button class="size-btn">36</button>
+              </div>
+              <div class="item-buttons">
+                <button class="btn btn-add-cart">
+                  <i class="fas fa-shopping-cart me-2"></i>Order Now
+                </button>
+                <button class="btn btn-remove">
+                  <i class="fas fa-trash me-2"></i>Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wishlist Summary -->
+      <div class="wishlist-summary">
+        <h3 class="mb-4">
+          <i class="fas fa-chart-line me-2"></i>Wishlist Summary
+        </h3>
+        <div class="summary-stats">
+          <div class="stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Total Items</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">₹15,297</span>
+            <span class="stat-label">Total Value</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">25%</span>
+            <span class="stat-label">Avg. Savings</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <button class="btn btn-light btn-lg me-3">
+            <i class="fas fa-shopping-cart me-2"></i>Add All to Cart
+          </button>
+          <button class="btn btn-outline-light btn-lg">
+            <i class="fas fa-share-alt me-2"></i>Share Wishlist
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
